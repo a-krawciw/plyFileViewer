@@ -8,6 +8,9 @@ import tkinter.filedialog as file_chooser
 
 import ply
 
+LABEL = 'pre'
+LABEL_IDX = 1
+
 if __name__ == "__main__":
 
     print("Load a ply point cloud, print it, and render it")
@@ -20,7 +23,6 @@ if __name__ == "__main__":
     vis = o3d.visualization.Visualizer()
     vis.create_window()
 
-
     pcd = o3d.io.read_point_cloud(glob.glob(f'{filename}/*.ply')[0])
     vis.add_geometry(pcd)
     vis.poll_events()
@@ -31,7 +33,7 @@ if __name__ == "__main__":
         pcd.points = o3d.io.read_point_cloud(polyfile).points
         pcd.paint_uniform_color((0.45, 0.45, 0.45))
         colors = np.asarray(pcd.colors)
-        colors[ply_pcd['pre'] == 1] = (1, 0, 0)
+        colors[ply_pcd[LABEL] == LABEL_IDX] = (1, 0, 0)
         vis.update_geometry(pcd)
         t = time.time()
         while time.time() - t < 0.1:
